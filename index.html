@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lux Aeterna — Ceremonial Collective Portal</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Georgia, Cinzel (titles), Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            cinzel: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            gold: {
+              DEFAULT: '#c9a84c',
+              light: '#f3e5be',
+              dark: '#9a7c2c',
+              glow: 'rgba(201, 168, 76, 0.25)'
+            },
+            space: {
+              light: '#1a1a3a',
+              dark: '#05050a',
+              deep: '#0a0a14'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom premium styling & glowing animations */
+    body {
+      background-color: #05050a;
+      color: #e8e0cc;
+      overflow-x: hidden;
+    }
+    .gold-glow {
+      box-shadow: 0 0 25px rgba(201, 168, 76, 0.15);
+    }
+    .gold-glow-border {
+      border-color: rgba(201, 168, 76, 0.3);
+    }
+    .gold-glow-border:focus {
+      border-color: rgba(201, 168, 76, 0.8);
+      box-shadow: 0 0 15px rgba(201, 168, 76, 0.3);
+    }
+    /* Elegant scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #05050a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c9a84c;
+      border-radius: 3px;
+    }
+    /* Breathing animation for ambient glowing elements */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.25; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.03); }
+    }
+    .pulse-glow {
+      animation: pulseGlow 8s ease-in-out infinite;
+    }
+    /* Starfield background canvas */
+    #canvas-stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-gold selection:text-space-dark relative min-h-screen flex flex-col justify-between">
+
+  <!-- Background Space Canvas -->
+  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a14] via-[#05050a] to-[#010103]"></div>
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[120px] pulse-glow"></div>
+    <canvas id="canvas-stars"></canvas>
+  </div>
+
+  <!-- Ambient Sound Controls & Status Overlay -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+    <button id="btn-toggle-sound" class="bg-space-deep/80 backdrop-blur-md border border-gold/30 hover:border-gold px-4 py-2 rounded-full text-xs font-medium tracking-widest text-gold flex items-center gap-2 transition-all duration-300 shadow-lg">
+      <span class="relative flex h-2 w-2" id="sound-pulse-ring">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
+      </span>
+      <span id="sound-status-text">AMBIENTE OFF</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <header class="relative z-10 max-w-7xl mx-auto w-full px-6 pt-10 pb-4 text-center">
+    <div class="inline-flex items-center justify-center mb-3">
+      <svg class="w-12 h-12 text-gold animate-[spin_60s_linear_infinite]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="0.75" stroke-dasharray="4 4" stroke-opacity="0.8"/>
+        <circle cx="50" cy="50" r="24" stroke="currentColor" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.4"/>
+        <line x1="10" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="0.5" stroke-opacity="0.4"/>
+        <path d="M50 35 L53 47 L65 50 L53 53 L50 65 L47 53 L35 50 L47 47 Z" fill="currentColor" fill-opacity="0.8"/>
+      </svg>
+    </div>
+    <h1 class="font-cinzel text-3xl sm:text-5xl font-bold tracking-[0.25em] text-gold mb-2">LUX AETERNA</h1>
+    <p class="font-serif text-sm sm:text-base italic text-gold/60 max-w-xl mx-auto tracking-widest">Soberanía interior • Armonía universal • Lectura Colectiva</p>
+    
+    <!-- Navigation Tabs -->
+    <div class="flex justify-center gap-1 sm:gap-4 mt-8 border-b border-gold/15 max-w-2xl mx-auto">
+      <button onclick="switchTab('ceremony')" id="tab-ceremony" class="active-tab px-4 py-3 text-xs sm:text-sm tracking-[0.15em] font-medium transition-all duration-300 border-b-2 border-gold text-gold font-cinzel">CEREMONIA</button>
+      <button onclick="switchTab('card')" id="tab-card" class="px-4 py-3 text-xs sm:text-sm tracking-[0.15em] font-medium transition-all duration-300 border-b-2 border-transparent text-gold/50 hover:text-gold font-cinzel">EL SELLO (CARD)</button>
+      <button onclick="switchTab('breath')" id="tab-breath" class="px-4 py-3 text-xs sm:text-sm tracking-[0.15em] font-medium transition-all duration-300 border-b-2 border-transparent text-gold/50 hover:text-gold font-cinzel">RESPIRACIÓN</button>
+    </div>
+  </header>
+
+  <!-- Notification Overlay -->
+  <div id="custom-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-space-deep border border-gold/40 px-6 py-3 rounded-lg shadow-xl text-gold text-xs tracking-wider opacity-0 pointer-events-none transition-all duration-500 flex items-center gap-3">
+    <span class="inline-block w-2 h-2 rounded-full bg-gold animate-ping"></span>
+    <span id="toast-message">Mensaje copiado con éxito</span>
+  </div>
+
+  <!-- Main Content Areas -->
+  <main class="relative z-10 flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 flex flex-col justify-center">
+
+    <!-- TAB 1: CEREMONY PROMPTER -->
+    <div id="content-ceremony" class="tab-content block max-w-3xl mx-auto w-full">
+      <div class="bg-space-deep/70 backdrop-blur-lg border border-gold/15 p-6 sm:p-10 rounded-2xl shadow-2xl relative overflow-hidden">
+        
+        <!-- Interactive Controls -->
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-8 border-b border-gold/10 pb-6">
+          <div>
+            <label class="block text-[10px] text-gold/50 tracking-widest uppercase mb-1.5">Versión de Lectura</label>
+            <div class="inline-flex rounded-md p-1 bg-space-light/40 border border-gold/20">
+              <button onclick="setVersion('full_es')" id="btn-ver-full_es" class="px-3 py-1 text-xs rounded transition-all duration-300 bg-gold text-space-dark font-medium">Completa (ES)</button>
+              <button onclick="setVersion('short_es')" id="btn-ver-short_es" class="px-3 py-1 text-xs rounded transition-all duration-300 text-gold/70 hover:text-gold">Breve (ES)</button>
+              <button onclick="setVersion('short_en')" id="btn-ver-short_en" class="px-3 py-1 text-xs rounded transition-all duration-300 text-gold/70 hover:text-gold">English (EN)</button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div class="flex flex-col">
+              <label class="block text-[10px] text-gold/50 tracking-widest uppercase mb-1.5">Auto-Avance</label>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="auto-play-toggle" class="sr-only peer" onchange="toggleAutoPlay()">
+                <div class="w-11 h-6 bg-space-light/60 border border-gold/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-gold after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold/20 peer-checked:border-gold"></div>
+              </label>
+            </div>
+            
+            <div class="flex flex-col" id="speed-control-container" style="display: none;">
+              <label class="block text-[10px] text-gold/50 tracking-widest uppercase mb-1">Duración por línea</label>
+              <div class="flex items-center gap-2">
+                <input type="range" id="speed-slider" min="2" max="10" value="4" class="w-24 accent-gold" onchange="updateSpeed(this.value)">
+                <span class="text-xs text-gold/80" id="speed-value">4s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prompter Display Area -->
+        <div id="prompter-display" class="min-h-[280px] flex flex-col items-center justify-center text-center py-6 px-4">
+          <!-- Intro View -->
+          <div id="prompter-intro" class="space-y-6">
+            <p class="font-serif text-lg text-gold/80 leading-relaxed italic max-w-lg mx-auto">
+              "Esta lectura colectiva eleva la vibración de calma, verdad y soberanía interior en todo el planeta."
+            </p>
+            <button onclick="startCeremony()" class="bg-gradient-to-r from-gold/80 to-gold hover:from-gold hover:to-gold-light text-space-dark px-8 py-3 rounded-full font-cinzel font-semibold tracking-widest transition-all duration-300 hover:scale-105 shadow-lg shadow-gold/15">
+              INICIAR LECTURA
+            </button>
+          </div>
+
+          <!-- Active Line View -->
+          <div id="prompter-active" class="hidden w-full flex flex-col justify-between items-center min-h-[220px]">
+            <div class="text-[10px] tracking-[0.2em] text-gold/45 mb-4 uppercase">
+              Línea <span id="current-line-num">1</span> de <span id="total-line-num">10</span>
+            </div>
+
+            <!-- Central dynamic view -->
+            <div class="flex-grow flex items-center justify-center my-6 min-h-[120px]">
+              <div id="text-container" class="transition-all duration-500 transform translate-y-0 opacity-100">
+                <h2 id="active-line-text" class="font-serif text-xl sm:text-3xl text-gold-light leading-relaxed max-w-2xl px-2 font-medium">Respira.</h2>
+                <div id="breath-circle" class="hidden w-20 h-20 mx-auto rounded-full border border-gold/40 flex items-center justify-center transition-all duration-1000 bg-gold/5">
+                  <span id="breath-action" class="text-xs tracking-widest text-gold font-cinzel">PAUSA</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prompter Footer Control Grid -->
+            <div class="w-full flex justify-between items-center border-t border-gold/10 pt-4 mt-4">
+              <button onclick="prevLine()" class="text-gold/50 hover:text-gold transition-colors p-2 flex items-center gap-1 text-xs tracking-widest">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> ATRÁS
+              </button>
+              
+              <button id="btn-play-pause" onclick="togglePlayPause()" class="hidden text-gold hover:text-gold-light transition-colors p-2 text-xs tracking-widest bg-gold/10 rounded-full px-4 py-2 border border-gold/20">
+                PAUSAR
+              </button>
+
+              <button onclick="nextLine()" class="text-gold/50 hover:text-gold transition-colors p-2 flex items-center gap-1 text-xs tracking-widest">
+                SIGUIENTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div id="progress-bar-container" class="absolute bottom-0 left-0 w-full h-1 bg-space-light">
+          <div id="progress-bar-fill" class="h-full bg-gold transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Quick ceremonial tip -->
+      <div class="mt-6 text-center text-xs text-gold/40 max-w-md mx-auto leading-relaxed">
+        Tip: Puedes usar la barra espaciadora para avanzar las diapositivas o activar la frecuencia ambientadora en la esquina superior derecha para guiar la meditación.
+      </div>
+    </div>
+
+
+    <!-- TAB 2: EL SELLO (THE CARD EDITOR / VIEWER) -->
+    <div id="content-card" class="tab-content hidden max-w-6xl mx-auto w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Side: Customizer Controls -->
+        <div class="lg:col-span-5 bg-space-deep/80 backdrop-blur-lg p-6 sm:p-8 rounded-2xl border border-gold/20 shadow-xl space-y-6">
+          <div>
+            <h3 class="font-cinzel text-lg font-bold text-gold tracking-wider mb-2">PERSONALIZAR EL SELLO</h3>
+            <p class="text-xs text-gold/60 leading-relaxed font-sans">
+              Modifica en tiempo real la tarjeta ceremonial generada mediante vectores dinámicos (SVG) de geometría sagrada. Ajusta los textos para compartir con tu colectivo o descárgala.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs text-gold/70 tracking-widest mb-1.5 uppercase">Título del Sello</label>
+              <input type="text" id="card-input-title" value="LUX AETERNA" class="w-full bg-space-dark border border-gold/30 rounded px-3 py-2 text-gold-light text-sm focus:outline-none focus:border-gold tracking-widest uppercase font-cinzel" oninput="updateSVGText('svg-title', this.value)">
+            </div>
+
+            <div>
+              <label class="block text-xs text-gold/70 tracking-widest mb-1.5 uppercase">Subtítulo</label>
+              <input type="text" id="card-input-subtitle" value="A CEREMONIAL READING" class="w-full bg-space-dark border border-gold/30 rounded px-3 py-2 text-gold-light text-sm focus:outline-none focus:border-gold tracking-widest uppercase font-cinzel" oninput="updateSVGText('svg-subtitle', this.value)">
+            </div>
+
+            <!-- Interactive Lines customization -->
+            <div>
+              <label class="block text-xs text-gold/70 tracking-widest mb-2 uppercase">Líneas de Oración</label>
+              <div class="space-y-2 max-h-[220px] overflow-y-auto pr-2">
+                <input type="text" id="svg-line-0" value="Breathe." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(0, this.value)">
+                <input type="text" id="svg-line-1" value="Return to your center." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(1, this.value)">
+                <input type="text" id="svg-line-2" value="You are aware. You are whole. You are here." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(2, this.value)">
+                <input type="text" id="svg-line-3" value="We choose clarity." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(3, this.value)">
+                <input type="text" id="svg-line-4" value="We choose truth." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(4, this.value)">
+                <input type="text" id="svg-line-5" value="We choose each other —" class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(5, this.value)">
+                <input type="text" id="svg-line-6" value="with dignity and care." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(6, this.value)">
+                <input type="text" id="svg-line-7" value="May stillness lead us." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(7, this.value)">
+                <input type="text" id="svg-line-8" value="May purpose guide us." class="w-full bg-space-dark border border-gold/15 rounded px-2.5 py-1.5 text-xs text-gold-light focus:outline-none focus:border-gold font-serif" oninput="updateSVGLine(8, this.value)">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs text-gold/70 tracking-widest mb-1.5 uppercase">Cierre</label>
+              <input type="text" id="card-input-closing" value="So it is." class="w-full bg-space-dark border border-gold/30 rounded px-3 py-2 text-gold-light text-sm focus:outline-none focus:border-gold italic font-serif" oninput="updateSVGText('svg-closing', this.value)">
+            </div>
+          </div>
+
+          <!-- Buttons Row -->
+          <div class="pt-4 flex gap-3">
+            <button onclick="downloadPNG()" class="flex-1 bg-gold text-space-dark px-4 py-2.5 rounded text-xs font-cinzel font-semibold tracking-wider hover:bg-gold-light transition-all duration-300 flex items-center justify-center gap-2 shadow-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              EXPORTAR PNG
+            </button>
+            <button onclick="resetSVG()" class="border border-gold/40 text-gold hover:border-gold hover:bg-gold/10 px-4 py-2.5 rounded text-xs font-cinzel tracking-wider transition-all duration-300">
+              REINICIAR
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Side: SVG Live Render Display -->
+        <div class="lg:col-span-7 flex justify-center items-center">
+          <div class="relative max-w-[420px] w-full border border-gold/20 p-2 bg-space-deep/90 rounded-2xl shadow-2xl overflow-hidden group">
+            <div class="absolute inset-0 bg-gold/5 blur-2xl group-hover:bg-gold/10 transition-colors pointer-events-none"></div>
+            <!-- Embedded SVG Card -->
+            <div class="relative z-10 w-full" id="svg-card-container">
+              <svg id="ceremonial-svg" width="100%" height="auto" viewBox="0 0 680 820" role="img" xmlns="http://www.w3.org/2000/svg" class="w-full rounded-xl">
+                <title>Lux Aeterna — Ceremonial Reading Card</title>
+                <desc>A shareable ceremonial card featuring the short version of the Lux Aeterna collective reading.</desc>
+
+                <defs>
+                  <radialGradient id="bg" cx="50%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#1a1a2e"/>
+                    <stop offset="100%" stop-color="#0a0a14"/>
+                  </radialGradient>
+                  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+
+                <rect width="680" height="820" rx="16" fill="url(#bg)"/>
+                <rect width="680" height="820" rx="16" fill="url(#glow)"/>
+
+                <line x1="60" y1="52" x2="620" y2="52" stroke="#c9a84c" stroke-width="0.5" stroke-opacity="0.5"/>
+                <line x1="60" y1="768" x2="620" y2="768" stroke="#c9a84c" stroke-width="0.5" stroke-opacity="0.5"/>
+
+                <g stroke="#c9a84c" stroke-opacity="0.4" fill="none" stroke-width="0.8">
+                  <line x1="60" y1="52" x2="60" y2="72"/>
+                  <line x1="620" y1="52" x2="620" y2="72"/>
+                  <line x1="60" y1="768" x2="60" y2="748"/>
+                  <line x1="620" y1="768" x2="620" y2="748"/>
+                </g>
+
+                <g transform="translate(340, 100)">
+                  <circle r="14" fill="none" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.9"/>
+                  <circle r="6" fill="#c9a84c" fill-opacity="0.6"/>
+                  <line x1="0" y1="-22" x2="0" y2="-18" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                  <line x1="0" y1="18" x2="0" y2="22" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                  <line x1="-22" y1="0" x2="-18" y2="0" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                  <line x1="18" y1="0" x2="22" y2="0" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                  <line x1="-15.5" y1="-15.5" x2="-12.7" y2="-12.7" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                  <line x1="12.7" y1="12.7" x2="15.5" y2="15.5" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                  <line x1="15.5" y1="-15.5" x2="12.7" y2="-12.7" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                  <line x1="-12.7" y1="12.7" x2="-15.5" y2="15.5" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.7"/>
+                </g>
+
+                <text id="svg-title" x="340" y="148" text-anchor="middle" font-family="Georgia, serif" font-size="13" font-weight="400" fill="#c9a84c" fill-opacity="0.8" letter-spacing="6">LUX AETERNA</text>
+                <text id="svg-subtitle" x="340" y="172" text-anchor="middle" font-family="Georgia, serif" font-size="11" font-weight="400" fill="#c9a84c" fill-opacity="0.45" letter-spacing="3">A CEREMONIAL READING</text>
+
+                <line x1="260" y1="190" x2="420" y2="190" stroke="#c9a84c" stroke-width="0.4" stroke-opacity="0.35"/>
+
+                <g font-family="Georgia, serif" text-anchor="middle" fill="#e8e0cc">
+                  <text id="svg-line-text-0" x="340" y="234" font-size="17" fill="#e8e0cc" fill-opacity="0.95">Breathe.</text>
+                  <text id="svg-line-p-0" x="340" y="268" font-size="14" fill="#c9a84c" fill-opacity="0.55" letter-spacing="2" font-style="italic">[ pause ]</text>
+                  
+                  <text id="svg-line-text-1" x="340" y="306" font-size="17" fill="#e8e0cc" fill-opacity="0.95">Return to your center.</text>
+                  <text id="svg-line-p-1" x="340" y="340" font-size="14" fill="#c9a84c" fill-opacity="0.55" letter-spacing="2" font-style="italic">[ pause ]</text>
+                  
+                  <text id="svg-line-text-2" x="340" y="378" font-size="17" fill="#e8e0cc" fill-opacity="0.95">You are aware. You are whole. You are here.</text>
+                  <text id="svg-line-p-2" x="340" y="412" font-size="14" fill="#c9a84c" fill-opacity="0.55" letter-spacing="2" font-style="italic">[ pause ]</text>
+                  
+                  <text id="svg-line-text-3" x="340" y="450" font-size="17" fill="#e8e0cc" fill-opacity="0.95">We choose clarity.</text>
+                  <text id="svg-line-p-3" x="340" y="484" font-size="14" fill="#c9a84c" fill-opacity="0.55" letter-spacing="2" font-style="italic">[ pause ]</text>
+                  
+                  <text id="svg-line-text-4" x="340" y="522" font-size="17" fill="#e8e0cc" fill-opacity="0.95">We choose truth.</text>
+                  <text id="svg-line-p-4" x="340" y="556" font-size="14" fill="#c9a84c" fill-opacity="0.55" letter-spacing="2" font-style="italic">[ pause ]</text>
+                  
+                  <text id="svg-line-text-5" x="340" y="594" font-size="16" fill="#e8e0cc" fill-opacity="0.9">We choose each other —</text>
+                  <text id="svg-line-text-6" x="340" y="616" font-size="16" fill="#e8e0cc" fill-opacity="0.9">with dignity and care.</text>
+                  <text id="svg-line-p-5" x="340" y="650" font-size="14" fill="#c9a84c" fill-opacity="0.55" letter-spacing="2" font-style="italic">[ pause ]</text>
+                  
+                  <text id="svg-line-text-7" x="340" y="686" font-size="16" fill="#e8e0cc" fill-opacity="0.9">May stillness lead us.</text>
+                  <text id="svg-line-text-8" x="340" y="708" font-size="16" fill="#e8e0cc" fill-opacity="0.9">May purpose guide us.</text>
+                  <text id="svg-line-p-6" x="340" y="738" font-size="14" fill="#c9a84c" fill-opacity="0.55" letter-spacing="2" font-style="italic">[ pause ]</text>
+                </g>
+
+                <line x1="200" y1="780" x2="480" y2="780" stroke="#c9a84c" stroke-width="0.4" stroke-opacity="0.3"/>
+                <text id="svg-closing" x="340" y="802" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#c9a84c" fill-opacity="0.5" letter-spacing="1" font-style="italic">So it is.</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- TAB 3: RESPIRACIÓN COMPAÑERA (BREATHING TOOL) -->
+    <div id="content-breath" class="tab-content hidden max-w-2xl mx-auto w-full text-center">
+      <div class="bg-space-deep/70 backdrop-blur-md p-8 sm:p-12 rounded-2xl border border-gold/15 shadow-2xl relative overflow-hidden">
+        
+        <!-- Sacred breathing mandala -->
+        <div class="relative w-64 h-64 mx-auto my-6 flex items-center justify-center">
+          <!-- Animated Ring 1 -->
+          <div id="breath-ring-outer" class="absolute inset-0 rounded-full border-2 border-gold/10 transition-all duration-4000 ease-in-out scale-50"></div>
+          <!-- Animated Ring 2 -->
+          <div id="breath-ring-mid" class="absolute w-48 h-48 rounded-full border border-gold/30 transition-all duration-4000 ease-in-out scale-50 bg-gold/5"></div>
+          <!-- Centered text instruction -->
+          <div class="z-10 flex flex-col items-center justify-center">
+            <span id="breathing-state-text" class="font-cinzel text-lg tracking-[0.2em] text-gold font-bold">PREPARAR</span>
+            <span id="breathing-timer" class="text-xs text-gold/60 mt-1 font-mono">0s</span>
+          </div>
+        </div>
+
+        <p id="breathing-instruction-detail" class="font-serif italic text-gold/70 text-sm max-w-sm mx-auto leading-relaxed mt-8">
+          "El control consciente de la respiración es el puente de unión entre la mente y la soberanía del cuerpo."
+        </p>
+
+        <div class="mt-8 pt-6 border-t border-gold/10 flex justify-center gap-4">
+          <button id="btn-start-breath" onclick="toggleBreathingCycle()" class="bg-gold hover:bg-gold-light text-space-dark px-8 py-2.5 rounded text-xs font-cinzel font-semibold tracking-widest transition-all">
+            INICIAR CICLO
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Section with dynamic stats or quote -->
+  <footer class="relative z-10 w-full text-center py-8 border-t border-gold/10 mt-12 bg-space-deep/60">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-xs text-gold/45 tracking-widest uppercase font-cinzel">Soberanía universal • No Control • No Miedo</p>
+      
+      <!-- Cierre Memorias -->
+      <div class="text-center font-serif text-[11px] text-gold/60 italic max-w-sm sm:text-right">
+        "Donde hay verdad, nace claridad. Donde hay calma, nace fuerza."
+      </div>
+    </div>
+  </footer>
+
+  <!-- CANVAS AND AUDIO SYSTEMS (JS Implementation) -->
+  <script>
+    // Starfield Background Animation
+    const canvas = document.getElementById('canvas-stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initStars();
+    }
+
+    function initStars() {
+      stars = [];
+      const numStars = Math.floor((canvas.width * canvas.height) / 10000);
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.2,
+          alpha: Math.random() * 0.8 + 0.2,
+          speed: Math.random() * 0.05 + 0.01
+        });
+      }
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        ctx.fillStyle = `rgba(201, 168, 76, ${star.alpha})`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Slow drift upwards
+        star.y -= star.speed;
+        if (star.y < 0) {
+          star.y = canvas.height;
+          star.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawStars);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawStars();
+
+    // TOAST / Notification System
+    function showToast(message) {
+      const toast = document.getElementById('custom-toast');
+      document.getElementById('toast-message').innerText = message;
+      toast.style.opacity = '1';
+      toast.style.pointerEvents = 'auto';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.pointerEvents = 'none';
+      }, 3500);
+    }
+
+
+    // TAB MANAGEMENT
+    function switchTab(tabId) {
+      // Manage tab headers
+      ['ceremony', 'card', 'breath'].forEach(id => {
+        const tabEl = document.getElementById(`tab-${id}`);
+        const contentEl = document.getElementById(`content-${id}`);
+        if (id === tabId) {
+          tabEl.classList.add('border-gold', 'text-gold');
+          tabEl.classList.remove('border-transparent', 'text-gold/50');
+          contentEl.classList.remove('hidden');
+          contentEl.classList.add('block');
+        } else {
+          tabEl.classList.add('border-transparent', 'text-gold/50');
+          tabEl.classList.remove('border-gold', 'text-gold');
+          contentEl.classList.add('hidden');
+          contentEl.classList.remove('block');
+        }
+      });
+
+      // Stop active animation states when leaving tab
+      if (tabId !== 'breath') {
+        stopBreathingCycle();
+      }
+    }
+
+
+    // LECTURAS CEREMONIALES DATABASE
+    const READINGS = {
+      full_es: [
+        "Respira.",
+        "[PAUSA]",
+        "Siente la tierra bajo tus pies.",
+        "[PAUSA]",
+        "Siente el aire entrando y saliendo con calma.",
+        "[PAUSA]",
+        "Deja ir el ruido.",
+        "[PAUSA]",
+        "Vuelve al centro.",
+        "[PAUSA]",
+        "Estamos aquí.",
+        "[PAUSA]",
+        "Presentes.",
+        "[PAUSA]",
+        "Conscientes.",
+        "[PAUSA]",
+        "Unidos por la verdad.",
+        "[PAUSA]",
+        "Sostenidos por la calma.",
+        "[PAUSA]",
+        "Guiados por la claridad.",
+        "[PAUSA]",
+        "Que la mente se aquiete.",
+        "[PAUSA]",
+        "Que el corazón se ordene.",
+        "[PAUSA]",
+        "Que la voluntad se fortalezca.",
+        "[PAUSA]",
+        "No caminamos desde el temor.",
+        "[PAUSA]",
+        "Caminamos desde la conciencia.",
+        "[PAUSA]",
+        "No buscamos dominar.",
+        "[PAUSA]",
+        "Buscamos comprender.",
+        "[PAUSA]",
+        "No levantamos muros en el alma.",
+        "[PAUSA]",
+        "Abrimos espacio para la luz, la verdad y la cooperación.",
+        "[PAUSA]",
+        "Que cada pensamiento sea limpio.",
+        "[PAUSA]",
+        "Que cada palabra sea digna.",
+        "[PAUSA]",
+        "Que cada acto construya paz.",
+        "[PAUSA]",
+        "Honramos la vida.",
+        "[PAUSA]",
+        "Honramos la libertad interior.",
+        "[PAUSA]",
+        "Honramos la responsabilidad de crear un futuro más justo.",
+        "[PAUSA]",
+        "Que el discernimiento nos acompañe.",
+        "[PAUSA]",
+        "Que la esperanza permanezca firme.",
+        "[PAUSA]",
+        "Que la unidad sea más fuerte que la confusión.",
+        "[PAUSA]",
+        "Así avanzamos.",
+        "[PAUSA]",
+        "Con serenidad.",
+        "[PAUSA]",
+        "Con propósito.",
+        "[PAUSA]",
+        "Con honor."
+      ],
+      short_es: [
+        "Respira.",
+        "[PAUSA]",
+        "Vuelve al centro.",
+        "[PAUSA]",
+        "Que la mente se aquiete.",
+        "[PAUSA]",
+        "Que el corazón se ordene.",
+        "[PAUSA]",
+        "Que la verdad nos guíe sin miedo.",
+        "[PAUSA]",
+        "Que la dignidad humana sea respetada.",
+        "[PAUSA]",
+        "Que cada pensamiento, palabra y acción construya paz.",
+        "[PAUSA]",
+        "Caminamos con calma.",
+        "[PAUSA]",
+        "Caminamos con conciencia.",
+        "[PAUSA]",
+        "Caminamos unidos por la luz interior."
+      ],
+      short_en: [
+        "Breathe.",
+        "[PAUSA]",
+        "Return to your center.",
+        "[PAUSA]",
+        "You are aware. You are whole. You are here.",
+        "[PAUSA]",
+        "We choose clarity.",
+        "[PAUSA]",
+        "We choose truth.",
+        "[PAUSA]",
+        "We choose each other —",
+        "with dignity and care.",
+        "[PAUSA]",
+        "May stillness lead us.",
+        "May purpose guide us."
+      ]
+    };
+
+    let currentVersion = 'full_es';
+    let currentLineIndex = 0;
+    let autoPlayTimer = null;
+    let autoPlayActive = false;
+    let lineDuration = 4000; // default 4 seconds
+    let isPaused = false;
+
+    // Change Ceremony Version
+    function setVersion(ver) {
+      currentVersion = ver;
+      
+      // Update UI button state
+      ['full_es', 'short_es', 'short_en'].forEach(v => {
+        const btn = document.getElementById(`btn-ver-${v}`);
+        if (v === ver) {
+          btn.classList.add('bg-gold', 'text-space-dark', 'font-medium');
+          btn.classList.remove('text-gold/70', 'hover:text-gold');
+        } else {
+          btn.classList.remove('bg-gold', 'text-space-dark', 'font-medium');
+          btn.classList.add('text-gold/70', 'hover:text-gold');
+        }
+      });
+
+      // Restart Prompter View
+      resetPrompter();
+    }
+
+    function resetPrompter() {
+      stopAutoPlay();
+      currentLineIndex = 0;
+      isPaused = false;
+      document.getElementById('prompter-intro').classList.remove('hidden');
+      document.getElementById('prompter-active').classList.add('hidden');
+      document.getElementById('progress-bar-fill').style.width = '0%';
+    }
+
+    function startCeremony() {
+      document.getElementById('prompter-intro').classList.add('hidden');
+      document.getElementById('prompter-active').classList.remove('hidden');
+      currentLineIndex = 0;
+      isPaused = false;
+      showLine();
+      
+      if (document.getElementById('auto-play-toggle').checked) {
+        startAutoPlay();
+      }
+    }
+
+    // Displays the current line in the Ceremony UI
+    function showLine() {
+      const list = READINGS[currentVersion];
+      const text = list[currentLineIndex];
+      const isPausa = text === '[PAUSA]' || text === '[pause]';
+
+      const lineTextEl = document.getElementById('active-line-text');
+      const breathCircle = document.getElementById('breath-circle');
+      const textContainer = document.getElementById('text-container');
+
+      // Fading effects transition
+      textContainer.style.opacity = '0';
+      textContainer.style.transform = 'translateY(10px)';
+
+      setTimeout(() => {
+        if (isPausa) {
+          lineTextEl.classList.add('hidden');
+          breathCircle.classList.remove('hidden');
+          document.getElementById('breath-action').innerText = currentVersion === 'short_en' ? 'PAUSE' : 'PAUSA';
+          
+          // Trigger visual breathing expanding pulse during pauses
+          breathCircle.style.transform = 'scale(1.4)';
+          setTimeout(() => {
+            breathCircle.style.transform = 'scale(1)';
+          }, 2000);
+
+        } else {
+          lineTextEl.classList.remove('hidden');
+          breathCircle.classList.add('hidden');
+          lineTextEl.innerText = text;
+        }
+
+        // Return transition of active line
+        textContainer.style.opacity = '1';
+        textContainer.style.transform = 'translateY(0)';
+      }, 35000 / 100); // quick matching delay for animation exit
+
+      // Progress and indicators
+      document.getElementById('current-line-num').innerText = currentLineIndex + 1;
+      document.getElementById('total-line-num').innerText = list.length;
+      
+      const pct = ((currentLineIndex + 1) / list.length) * 100;
+      document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+    }
+
+    function nextLine() {
+      const list = READINGS[currentVersion];
+      if (currentLineIndex < list.length - 1) {
+        currentLineIndex++;
+        showLine();
+        if (autoPlayActive) resetAutoPlayInterval();
+      } else {
+        // Reached the end
+        showToast("Lectura Ceremonial completada. Así es.");
+        resetPrompter();
+      }
+    }
+
+    function prevLine() {
+      if (currentLineIndex > 0) {
+        currentLineIndex--;
+        showLine();
+        if (autoPlayActive) resetAutoPlayInterval();
+      }
+    }
+
+    // Auto Play Logic
+    function toggleAutoPlay() {
+      const isChecked = document.getElementById('auto-play-toggle').checked;
+      const speedControl = document.getElementById('speed-control-container');
+      const btnPlayPause = document.getElementById('btn-play-pause');
+      
+      if (isChecked) {
+        speedControl.style.display = 'block';
+        btnPlayPause.classList.remove('hidden');
+        if (document.getElementById('prompter-intro').classList.contains('hidden')) {
+          startAutoPlay();
+        }
+      } else {
+        speedControl.style.display = 'none';
+        btnPlayPause.classList.add('hidden');
+        stopAutoPlay();
+      }
+    }
+
+    function startAutoPlay() {
+      autoPlayActive = true;
+      isPaused = false;
+      document.getElementById('btn-play-pause').innerText = "PAUSAR";
+      resetAutoPlayInterval();
+    }
+
+    function stopAutoPlay() {
+      autoPlayActive = false;
+      if (autoPlayTimer) clearInterval(autoPlayTimer);
+    }
+
+    function togglePlayPause() {
+      if (isPaused) {
+        isPaused = false;
+        document.getElementById('btn-play-pause').innerText = "PAUSAR";
+        resetAutoPlayInterval();
+      } else {
+        isPaused = true;
+        document.getElementById('btn-play-pause').innerText = "REANUDAR";
+        if (autoPlayTimer) clearInterval(autoPlayTimer);
+      }
+    }
+
+    function resetAutoPlayInterval() {
+      if (autoPlayTimer) clearInterval(autoPlayTimer);
+      if (isPaused) return;
+
+      const currentText = READINGS[currentVersion][currentLineIndex];
+      // Pauses last longer dynamically for mental processing
+      const multiplier = (currentText === '[PAUSA]' || currentText === '[pause]') ? 1.5 : 1.0;
+
+      autoPlayTimer = setTimeout(() => {
+        nextLine();
+      }, lineDuration * multiplier);
+    }
+
+    function updateSpeed(val) {
+      lineDuration = val * 1000;
+      document.getElementById('speed-value').innerText = `${val}s`;
+      if (autoPlayActive && !isPaused) {
+        resetAutoPlayInterval();
+      }
+    }
+
+    // Keyboard support for presentation slide
+    window.addEventListener('keydown', (e) => {
+      if (document.getElementById('content-ceremony').classList.contains('block')) {
+        if (e.code === 'Space' || e.code === 'ArrowRight') {
+          e.preventDefault();
+          nextLine();
+        } else if (e.code === 'ArrowLeft') {
+          e.preventDefault();
+          prevLine();
+        }
+      }
+    });
+
+
+    // TAB 2: SVG CARD REALTIME RENDER & CUSTOMIZER
+    function updateSVGText(id, value) {
+      const textEl = document.getElementById(id);
+      if (textEl) {
+        textEl.textContent = value;
+      }
+    }
+
+    function updateSVGLine(index, value) {
+      const lineEl = document.getElementById(`svg-line-text-${index}`);
+      if (lineEl) {
+        lineEl.textContent = value;
+      }
+    }
+
+    function resetSVG() {
+      // Revert inputs to defaults
+      document.getElementById('card-input-title').value = "LUX AETERNA";
+      document.getElementById('card-input-subtitle').value = "A CEREMONIAL READING";
+      document.getElementById('card-input-closing').value = "So it is.";
+      
+      const defaultLines = [
+        "Breathe.",
+        "Return to your center.",
+        "You are aware. You are whole. You are here.",
+        "We choose clarity.",
+        "We choose truth.",
+        "We choose each other —",
+        "with dignity and care.",
+        "May stillness lead us.",
+        "May purpose guide us."
+      ];
+
+      defaultLines.forEach((line, index) => {
+        document.getElementById(`svg-line-${index}`).value = line;
+        updateSVGLine(index, line);
+      });
+
+      updateSVGText('svg-title', "LUX AETERNA");
+      updateSVGText('svg-subtitle', "A CEREMONIAL READING");
+      updateSVGText('svg-closing', "So it is.");
+      
+      showToast("Configuración del Sello restablecida.");
+    }
+
+    // Export Dynamic SVG as high resolution PNG file (No external APIs needed)
+    function downloadPNG() {
+      showToast("Compilando el Sello vectorial, por favor espere...");
+      const svgElement = document.getElementById('ceremonial-svg');
+      const svgString = new XMLSerializer().serializeToString(svgElement);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      
+      const URL = window.URL || window.webkitURL || window;
+      const blobURL = URL.createObjectURL(svgBlob);
+      
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = 680 * 2; // high definition scale factor
+        canvas.height = 820 * 2;
+        const context = canvas.getContext('2d');
+        context.scale(2, 2); // support scale coords
+        
+        context.drawImage(image, 0, 0, 680, 820);
+        
+        // Export using compatible anchor system fallback
+        const pngURL = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngURL;
+        downloadLink.download = 'Lux_Aeterna_Ceremonial_Card.png';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        
+        showToast("¡Sello descargado con éxito!");
+      };
+      image.onerror = function() {
+        showToast("Error al exportar, use captura de pantalla o intente de nuevo.");
+      }
+      image.src = blobURL;
+    }
+
+
+    // TAB 3: RESPIRACIÓN COMPAÑERA (PRANAYAMA CYCLE)
+    let breathingInterval = null;
+    let breathingCycleActive = false;
+    let breathTime = 0;
+    let breathPhase = 0; // 0: Inhale, 1: Hold, 2: Exhale, 3: Hold Out
+
+    const phases = [
+      { text: "INHALA", duration: 4, scale: 1.4, color: 'rgba(201, 168, 76, 0.4)' },
+      { text: "SOSTÉN", duration: 4, scale: 1.4, color: 'rgba(201, 168, 76, 0.6)' },
+      { text: "EXHALA", duration: 4, scale: 0.6, color: 'rgba(201, 168, 76, 0.2)' },
+      { text: "SOSTÉN", duration: 4, scale: 0.6, color: 'rgba(201, 168, 76, 0.1)' }
+    ];
+
+    function toggleBreathingCycle() {
+      if (breathingCycleActive) {
+        stopBreathingCycle();
+      } else {
+        startBreathingCycle();
+      }
+    }
+
+    function startBreathingCycle() {
+      breathingCycleActive = true;
+      document.getElementById('btn-start-breath').innerText = "PAUSAR CICLO";
+      document.getElementById('btn-start-breath').classList.add('bg-red-900/40', 'border', 'border-red-500/50', 'text-red-300');
+      document.getElementById('btn-start-breath').classList.remove('bg-gold');
+
+      breathPhase = 0;
+      breathTime = phases[breathPhase].duration;
+      applyBreathingPhase();
+
+      breathingInterval = setInterval(() => {
+        breathTime--;
+        document.getElementById('breathing-timer').innerText = `${breathTime}s`;
+
+        if (breathTime <= 0) {
+          breathPhase = (breathPhase + 1) % 4;
+          breathTime = phases[breathPhase].duration;
+          applyBreathingPhase();
+        }
+      }, 1000);
+    }
+
+    function stopBreathingCycle() {
+      breathingCycleActive = false;
+      const btn = document.getElementById('btn-start-breath');
+      if (btn) {
+        btn.innerText = "INICIAR CICLO";
+        btn.classList.remove('bg-red-900/40', 'border', 'border-red-500/50', 'text-red-300');
+        btn.classList.add('bg-gold');
+      }
+
+      if (breathingInterval) clearInterval(breathingInterval);
+      
+      const outerRing = document.getElementById('breath-ring-outer');
+      const midRing = document.getElementById('breath-ring-mid');
+      if (outerRing) outerRing.style.transform = 'scale(0.5)';
+      if (midRing) midRing.style.transform = 'scale(0.5)';
+      
+      const stateText = document.getElementById('breathing-state-text');
+      if (stateText) stateText.innerText = "PREPARAR";
+      
+      const timerText = document.getElementById('breathing-timer');
+      if (timerText) timerText.innerText = "0s";
+    }
+
+    function applyBreathingPhase() {
+      const phase = phases[breathPhase];
+      document.getElementById('breathing-state-text').innerText = phase.text;
+      document.getElementById('breathing-timer').innerText = `${breathTime}s`;
+
+      const outerRing = document.getElementById('breath-ring-outer');
+      const midRing = document.getElementById('breath-ring-mid');
+
+      outerRing.style.transform = `scale(${phase.scale})`;
+      outerRing.style.borderColor = phase.color;
+      
+      midRing.style.transform = `scale(${phase.scale - 0.2})`;
+      midRing.style.backgroundColor = phase.color;
+    }
+
+
+    // WEB AUDIO API - SOLFEGGIO/AMBIENT MEDITATION DRONE GENERATOR
+    let audioCtx = null;
+    let masterGain = null;
+    let osc1 = null;
+    let osc2 = null;
+    let isAudioPlaying = false;
+
+    function initAudio() {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+
+      // Lowpass filter to avoid high-end resonance, making it soft and safe
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(250, audioCtx.currentTime);
+
+      // Oscillator 1: Root Tone 432Hz (Pure healing frequency)
+      osc1 = audioCtx.createOscillator();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(432 / 4, audioCtx.currentTime); // Deep octave sub
+
+      // Oscillator 2: Perfect Fifth (Om 270Hz modulation based on 432 scale harmonics)
+      osc2 = audioCtx.createOscillator();
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(432 / 2, audioCtx.currentTime); // Soft harmony tone
+
+      // Low frequency modulation on gain for ambient wave motion
+      const lfo = audioCtx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(0.08, audioCtx.currentTime); // extremely slow modulation
+
+      const lfoGain = audioCtx.createGain();
+      lfoGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+
+      // Node bindings
+      lfo.connect(lfoGain);
+      lfoGain.connect(masterGain.gain);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(masterGain);
+      masterGain.connect(audioCtx.destination);
+
+      osc1.start();
+      osc2.start();
+      lfo.start();
+    }
+
+    document.getElementById('btn-toggle-sound').addEventListener('click', () => {
+      // Lazy context instantiation to follow browser permissions
+      if (!audioCtx) {
+        initAudio();
+      }
+
+      if (isAudioPlaying) {
+        // Fade out smoothly
+        masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5);
+        document.getElementById('sound-status-text').innerText = "AMBIENTE OFF";
+        document.getElementById('sound-pulse-ring').classList.add('hidden');
+        isAudioPlaying = false;
+      } else {
+        // Resume if suspended
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        // Fade in smoothly
+        masterGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 2);
+        document.getElementById('sound-status-text').innerText = "AMBIENTE ON";
+        document.getElementById('sound-pulse-ring').classList.remove('hidden');
+        isAudioPlaying = true;
+        showToast("Frecuencia Armónica 432Hz conectada.");
+      }
+    });
+
+  </script>
+</body>
+</html>
